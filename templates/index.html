@@ -20,10 +20,9 @@
         {% for movie in recommendations %}
         <div class="movie-card">
 
+            <img src="{{ movie[2] }}" alt="{{ movie[0] }}">
             <h3>{{ movie[0] }}</h3>
-
-            <p>{{ movie[1] }}% similar</p>
-
+            <p>Match: {{ movie[1] }}%</p>
         </div>
         {% endfor %}
     </div>

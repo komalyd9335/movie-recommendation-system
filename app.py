@@ -1,20 +1,29 @@
-from flask import Flask, render_template, request
+import streamlit as st
 from movie_recommendation import recommend
 
-app = Flask(__name__)
+st.set_page_config(
+    page_title="Movie Recommendation System",
+    page_icon="🎬"
+)
 
-@app.route("/", methods=["GET", "POST"])
-def home():
-    recommendations = []
+st.title("🎬 Movie Recommendation System")
+st.write("Enter a movie name to get similar movie recommendations.")
 
-    if request.method == "POST":
-        movie = request.form["movie"]
-        recommendations = recommend(movie)
+movie_name = st.text_input(
+    "Enter Movie Name",
+    placeholder="e.g. Avatar"
+)
 
-    return render_template(
-        "index.html",
-        recommendations=recommendations
-    )
+if st.button("Recommend"):
+    if movie_name:
+        recommendations = recommend(movie_name)
 
-if __name__ == "__main__":
-    app.run(debug=True)
+        st.subheader("Recommended Movies:")
+
+        if recommendations:
+            for movie in recommendations:
+                st.write(movie)
+        else:
+            st.warning("No recommendations found.")
+    else:
+        st.warning("Please enter a movie name.")
